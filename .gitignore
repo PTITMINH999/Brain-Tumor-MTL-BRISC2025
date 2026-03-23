@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+
+# VSCode
+.vscode/
+
+# Data
+SourceCode/data/
+
+# Model checkpoints
+SourceCode/checkpoints/
+*.pth
+
+# Logs & results
+SourceCode/logs/
+SourceCode/results/
+
+# OS
+.DS_Store
+Thumbs.db
