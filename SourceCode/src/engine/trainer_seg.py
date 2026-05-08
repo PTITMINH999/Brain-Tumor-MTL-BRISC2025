@@ -97,7 +97,7 @@ def train_segmentation(DEVICE,HYPERPARAMS,pos_weight):
     plot_learning_curves(history, 'Segmentation', 'segmentation/segmentation_metrics.png')
     
     
-    print("\nEVALUATING SEGMENTATION ON TEST SET...")
+    print("\nEVALUATING UNET-SEGMENTATION ON TEST SET...")
     test_ds = SegmentationDataset('data/processed', split='test', 
                                        transform=get_segmentation_transforms('test'))
     test_loader = DataLoader(test_ds, batch_size=HYPERPARAMS['BATCH_SEG'], 

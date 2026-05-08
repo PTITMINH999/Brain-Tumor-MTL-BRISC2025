@@ -1,9 +1,8 @@
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from torch.utils.data import DataLoader, random_split
+from torch.utils.data import DataLoader,random_split
 from tqdm import tqdm
-import numpy as np
 import os
 
 from src.models.attentionunet import AttentionUNet

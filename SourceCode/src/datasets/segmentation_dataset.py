@@ -53,17 +53,31 @@ class SegmentationDataset(Dataset):
 
         return image, mask
 
+# def get_segmentation_transforms(split='train'):
+#     if split == 'train':
+#         return A.Compose([
+#             A.HorizontalFlip(p=0.5),
+#             A.VerticalFlip(p=0.3),
+#             A.Affine(scale=(0.85, 1.15), translate_percent=(-0.1, 0.1), rotate=(-25, 25), p=0.7),
+#             A.ElasticTransform(alpha=1, sigma=50, p=0.3),
+#             A.GridDistortion(p=0.3),
+#             A.OpticalDistortion(distort_limit=0.1, p=0.3),
+#             A.RandomBrightnessContrast(brightness_limit=0.3, contrast_limit=0.3, p=0.5),
+#             A.RandomGamma(gamma_limit=(80, 120), p=0.3),
+#             A.GaussNoise(p=0.3),
+#             A.GaussianBlur(blur_limit=(3, 5), p=0.2),
+#             ToTensorV2()
+#         ])
+#     else:
+#         return A.Compose([ToTensorV2()])
+
 def get_segmentation_transforms(split='train'):
     if split == 'train':
         return A.Compose([
             A.HorizontalFlip(p=0.5),
-            A.VerticalFlip(p=0.3),
-            A.Affine(scale=(0.85, 1.15), translate_percent=(-0.1, 0.1), rotate=(-25, 25), p=0.7),
-            A.ElasticTransform(alpha=1, sigma=50, p=0.3),
-            A.GridDistortion(p=0.3),
-            A.OpticalDistortion(distort_limit=0.1, p=0.3),
+            A.Affine(scale=(0.9, 1.1), translate_percent=(-0.05, 0.05), rotate=(-20, 20), p=0.7),
+            A.ElasticTransform(alpha=1, sigma=50, p=0.2),
             A.RandomBrightnessContrast(brightness_limit=0.3, contrast_limit=0.3, p=0.5),
-            A.RandomGamma(gamma_limit=(80, 120), p=0.3),
             A.GaussNoise(p=0.3),
             A.GaussianBlur(blur_limit=(3, 5), p=0.2),
             ToTensorV2()

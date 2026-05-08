@@ -105,7 +105,7 @@ def train_multitask(DEVICE,HYPERPARAMS,class_weights,pos_weight):
         print(f"  Epoch {epoch+1}: Clf Acc={avg_clf_acc:.4f} | mIoU={avg_iou:.4f} | "
               f"Dice={avg_dice:.4f} | PixAcc={avg_seg_acc:.4f}")
         
-        score = (avg_iou + avg_clf_acc) / 2
+        score = 0.6 * avg_iou + 0.4 * avg_clf_acc
         scheduler.step(score)
         
         if score > best_score:
@@ -146,11 +146,22 @@ def train_multitask(DEVICE,HYPERPARAMS,class_weights,pos_weight):
                             shuffle=False, num_workers=2, pin_memory=True)
     
     results = evaluate_joint(model_joint, test_loader, bce, dice_loss_fn, crit_clf, DEVICE)
-    print(f"Test Clf Acc: {results['clf_acc']:.4f} | mIoU: {results['iou']:.4f} | "
-          f"Dice: {results['dice']:.4f} | Pixel Acc: {results['pixel_acc']:.4f}")
+    print("=== Classification ===")
+    print(
+        f"Acc: {results['clf_acc']:.4f} | "
+        f"Prec: {results['precision']:.4f} | "
+        f"Recall: {results['recall']:.4f} | "
+        f"F1: {results['f1']:.4f}"
+    )
+
+    print("=== Segmentation ===")
+    print(
+        f"mIoU: {results['iou']:.4f} | "
+        f"Dice: {results['dice']:.4f} | "
+        f"Pixel Acc: {results['pixel_acc']:.4f}"
+    )   
     save_confusion_matrix(results['cm'], 'Joint Model Test CM', 'joint/joint_test_cm.png')
     
-
     del train_loader, val_loader, test_loader, model_joint, optimizer
     torch.cuda.empty_cache()
 

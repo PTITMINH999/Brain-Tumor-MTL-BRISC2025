@@ -24,9 +24,9 @@ def plot_learning_curves(history, title, filename):
     if 'val_iou' in history: 
         plt.plot(history['val_iou'], label='Val mIoU', color='#f39c12', linewidth=2)
     if 'val_dice' in history: 
-        plt.plot(history['val_dice'], label='Val Dice', color='#8e44ad', linestyle='-.')
+        plt.plot(history['val_dice'], label='Val Dice', color="#44ad9f", linestyle='-.')
     if 'val_pixel_acc' in history: 
-        plt.plot(history['val_pixel_acc'], label='Val Pixel Acc', color='#16a085', linestyle=':')    
+        plt.plot(history['val_pixel_acc'], label='Val Pixel Acc', color="#a09e16", linestyle=':')    
 
         
 

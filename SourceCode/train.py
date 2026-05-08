@@ -10,13 +10,13 @@ HYPERPARAMS = {
     "LR_CLF": 1e-4,
     "LR_SEG": 1e-3,
     "BATCH_CLF": 32,
-    "BATCH_SEG": 16,
+    "BATCH_SEG": 12,
     "BATCH_JOINT": 12,
-    "EPOCHS": 3,
+    "EPOCHS": 40,
     "OPTIMIZER": "AdamW",
     "LOSS_CLF": "CrossEntropyLoss",
     "LOSS_SEG": "BCEWithLogitsLoss (Weighted) + DiceLoss",
-    "EARLY_STOP_PATIENCE": 1,
+    "EARLY_STOP_PATIENCE": 10,
     "WEIGHT_DECAY": 1e-3
 }
 

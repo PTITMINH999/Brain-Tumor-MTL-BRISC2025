@@ -86,6 +86,9 @@ def evaluate_joint(model,test_loader,bce,dice_loss_fn,criterion_clf,device):
     all_labels = np.array(all_labels)
     all_preds = np.array(all_preds)
     clf_acc = (all_preds==all_labels).mean()
+    precision = precision_score(all_labels,all_preds,average='weighted',zero_division=0)
+    recall = recall_score(all_labels,all_preds,average='weighted',zero_division=0)
+    f1 = f1_score(all_labels,all_preds,average='weighted',zero_division=0)
 
     return {
         'loss': test_loss / len(test_loader),
@@ -93,13 +96,16 @@ def evaluate_joint(model,test_loader,bce,dice_loss_fn,criterion_clf,device):
         'iou': total_iou / len(test_loader),
         'dice': total_dice / len(test_loader),
         'pixel_acc': total_seg_acc / len(test_loader),
-        'cm': confusion_matrix(all_labels, all_preds)
+        'cm': confusion_matrix(all_labels, all_preds),
+        'precision': precision,
+        'recall': recall,
+        'f1': f1
     }
 
 
 def save_confusion_matrix(cm, title, filename):
     plt.figure(figsize=(8, 6))
-    sns.heatmap(cm, annot=True, fmt='d', cmap='viridis')
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues')
     plt.title(title)
     plt.ylabel('True Label')
     plt.xlabel('Predicted Label')
