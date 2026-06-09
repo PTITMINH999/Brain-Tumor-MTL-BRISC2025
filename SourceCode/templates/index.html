@@ -50,6 +50,9 @@
             onsubmit="showLoading()"
           >
             <div class="upload-box">
+              <!-- MRI IMAGE -->
+              <label class="form-label fw-bold"> MRI Image </label>
+
               <input
                 type="file"
                 name="file"
@@ -57,6 +60,16 @@
                 accept="image/*"
                 onchange="previewImage(event)"
                 required
+              />
+
+              <!-- GT MASK -->
+              <label class="form-label fw-bold mt-2"> Ground Truth Mask </label>
+
+              <input
+                type="file"
+                name="mask"
+                class="form-control mb-3"
+                accept="image/*"
               />
 
               <!-- PREVIEW -->

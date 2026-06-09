@@ -16,6 +16,7 @@ SourceCode/checkpoints/
 SourceCode/logs/
 SourceCode/results/
 
+SourceCode/static
 # OS
 .DS_Store
 Thumbs.db

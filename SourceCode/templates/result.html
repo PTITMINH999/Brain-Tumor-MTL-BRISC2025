@@ -2,29 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Result</title>
+    <title>Brain Tumor Result</title>
+
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+
     <style>
       body {
         background: #f5f7fa;
       }
 
       .card {
-        border-radius: 12px;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 14px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+        border: none;
       }
 
-      /* IMAGE BOX */
       .image-box-large {
         width: 100%;
         height: 75vh;
         background: #000;
         display: flex;
-        align-items: center;
         justify-content: center;
+        align-items: center;
         border-radius: 12px;
         overflow: hidden;
         cursor: pointer;
@@ -44,7 +46,7 @@
         font-size: 0;
       }
 
-      /* LIGHTBOX (FIX CHÍNH Ở ĐÂY) */
+      /* LIGHTBOX */
       .lightbox {
         display: none;
         position: fixed;
@@ -52,57 +54,86 @@
         left: 5%;
         width: 90%;
         height: 90%;
-        background: rgba(0, 0, 0, 0.9);
+        background: rgba(0, 0, 0, 0.92);
         justify-content: center;
-        align-items: flex-start; /* 🔥 FIX: không bị mất phần trên */
-        z-index: 1050;
-        border-radius: 12px;
-        overflow: auto; /* 🔥 FIX QUAN TRỌNG */
+        align-items: flex-start;
+        z-index: 9999;
+        overflow: auto;
         padding: 20px;
+        border-radius: 12px;
       }
 
       .lightbox img {
         display: block;
         margin: auto;
         max-width: 100%;
-        max-height: none; /* 🔥 FIX: cho phép ảnh cao hơn */
+        max-height: none;
         transition: transform 0.2s;
       }
 
-      /* CONTROLS */
       .controls {
         position: fixed;
         top: 20px;
         right: 30px;
-        z-index: 2000;
+        z-index: 10000;
       }
 
       .controls button {
-        margin-left: 5px;
         border: none;
-        padding: 5px 10px;
+        padding: 6px 12px;
+        margin-left: 5px;
+        border-radius: 8px;
         font-size: 18px;
-        border-radius: 6px;
         cursor: pointer;
       }
 
       .controls button:hover {
         background: #ddd;
       }
+
+      .section-title {
+        font-weight: bold;
+      }
     </style>
   </head>
 
   <body>
-    <div class="container mt-4">
-      <h2 class="text-center mb-4">🧠 Analysis Result</h2>
+    <div class="container-fluid px-4 py-4">
+      <h2 class="text-center mb-4">🧠 Brain Tumor Analysis Result</h2>
 
-      <!-- IMAGE -->
-      <div class="card p-3 mb-4">
-        <h4 class="text-center mb-3">Segmentation Result</h4>
-        <div class="image-box-large">
-          <img src="{{ image_url }}" id="mainImage" />
+      <!-- IMAGES -->
+      <div class="row mb-4">
+        <!-- FULL RESULT -->
+        <div class="col-lg-6 mb-4">
+          <div class="card p-3 h-100">
+            <h4 class="text-center mb-3">📊 Full Analysis</h4>
+
+            <div class="image-box-large">
+              <img
+                src="{{ image_url }}"
+                class="zoomable"
+                alt="Analysis Result"
+              />
+            </div>
+          </div>
         </div>
-      </div>
+
+        <!-- OVERLAY -->
+        <div class="col-lg-6 mb-4">
+  <div class="card p-3 h-100">
+    <h4 class="text-center mb-3">
+      🎯 Tumor Overlay
+    </h4>
+
+    <div class="image-box-large">
+      <img
+        src="{{ overlay_url }}"
+        class="zoomable"
+        alt="Overlay Result"
+      />
+    </div>
+  </div>
+</div>
 
       <!-- LIGHTBOX -->
       <div class="lightbox" id="lightbox">
@@ -111,86 +142,94 @@
           <button id="zoomOut">-</button>
           <button id="closeBtn">✖</button>
         </div>
-        <img src="{{ image_url }}" id="lightboxImage" />
+
+        <img id="lightboxImage" />
       </div>
 
-      <!-- INFO -->
+      <!-- SUMMARY -->
       <div class="row mb-4">
-        <div class="col-md-6">
-          <div class="card p-3 h-100">
-            <h6>MRI View</h6>
-            <p class="mb-0">
-              {{ summary.mri_view.type }} <br />
-              <span class="text-muted">
-                Confidence: {{ "%.2f"|format(summary.mri_view.confidence * 100)
-                }}%
-              </span>
+        <!-- MRI VIEW -->
+        <div class="col-md-6 mb-3">
+          <div class="card p-4 h-100">
+            <h5 class="section-title mb-3">🧭 MRI View</h5>
+
+            <h4>{{ summary.mri_view.type }}</h4>
+
+            <p class="text-muted mb-0">
+              Confidence: {{ "%.2f"|format(summary.mri_view.confidence * 100)
+              }}%
             </p>
           </div>
         </div>
 
-        <div class="col-md-6">
-          <div class="card p-3 h-100">
-            <h6>Best Model</h6>
-            <p class="text-success fw-bold mb-0">
-              ⭐ {{ summary.best_model.name }}
-            </p>
+        <!-- BEST MODEL -->
+        <div class="col-md-6 mb-3">
+          <div class="card p-4 h-100">
+            <h5 class="section-title mb-3">⭐ Best Model</h5>
+
+            <h4 class="text-success">{{ summary.best_model.name }}</h4>
           </div>
         </div>
       </div>
 
-      <!-- TABLE -->
-      <div class="card p-3">
-        <h5>Model Comparison</h5>
-        <table class="table table-hover mt-3 align-middle">
-          <thead class="table-dark text-center">
-            <tr>
-              <th>Model</th>
-              <th>Prediction</th>
-              <th>Confidence</th>
-              <th>Tumor %</th>
-              <th>Status</th>
-            </tr>
-          </thead>
-          <tbody class="text-center">
-            {% for key, val in summary.results.items() %}
-            <tr {% if val.is_best %} class="table-success" {% endif %}>
-              <td class="fw-semibold">{{ val.model_name }}</td>
-              <td>{{ val.prediction }}</td>
+      <!-- MODEL TABLE -->
+      <div class="card p-4 mb-4">
+        <h4 class="mb-4">📋 Model Comparison</h4>
 
-              <td>
-                <div>{{ "%.2f"|format(val.confidence * 100) }}%</div>
-                <div class="progress mt-1">
-                  <div
-                    class="progress-bar bg-success"
-                    style="width: {{ (val.confidence * 100)|round(2) }}%;"
-                  ></div>
-                </div>
-              </td>
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead class="table-dark text-center">
+              <tr>
+                <th>Model</th>
+                <th>Prediction</th>
+                <th>Confidence</th>
+                <th>Tumor %</th>
+                <th>Status</th>
+              </tr>
+            </thead>
 
-              <td>{{ "%.2f"|format(val.tumor_percentage * 100) }}%</td>
+            <tbody class="text-center">
+              {% for key, val in summary.results.items() %}
+              <tr {% if val.is_best %} class="table-success" {% endif %}>
+                <td class="fw-semibold">{{ val.model_name }}</td>
 
-              <td>
-                {% if val.is_best %}
-                <span class="badge bg-success">Best</span>
-                {% else %}
-                <span class="text-muted">-</span>
-                {% endif %}
-              </td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
+                <td>{{ val.prediction }}</td>
+
+                <td style="min-width: 180px">
+                  <div>{{ "%.2f"|format(val.confidence * 100) }}%</div>
+
+                  <div class="progress mt-1">
+                    <div
+                      class="progress-bar bg-success"
+                      style="width: {{ (val.confidence * 100)|round(2) }}%;"
+                    ></div>
+                  </div>
+                </td>
+
+                <td>{{ "%.2f"|format(val.tumor_percentage * 100) }}%</td>
+
+                <td>
+                  {% if val.is_best %}
+                  <span class="badge bg-success"> Best </span>
+                  {% else %}
+                  <span class="text-muted"> - </span>
+                  {% endif %}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <!-- BACK -->
-      <div class="text-center mt-4">
-        <a href="/" class="btn btn-secondary px-4">⬅ Back</a>
+      <div class="text-center">
+        <a href="/" class="btn btn-secondary px-4 py-2"> ⬅ Back </a>
       </div>
     </div>
 
+    <!-- SCRIPT -->
     <script>
-      const mainImg = document.getElementById("mainImage");
       const lightbox = document.getElementById("lightbox");
       const lbImg = document.getElementById("lightboxImage");
 
@@ -200,34 +239,47 @@
 
       let scale = 1;
 
-      mainImg.onclick = () => {
-        lightbox.style.display = "flex";
-        scale = 1;
-        lbImg.style.transform = "scale(1)";
-      };
+      document.querySelectorAll(".zoomable").forEach((img) => {
+        img.onclick = () => {
+          lightbox.style.display = "flex";
+
+          lbImg.src = img.src;
+
+          scale = 1;
+          lbImg.style.transform = "scale(1)";
+        };
+      });
 
       closeBtn.onclick = () => {
         lightbox.style.display = "none";
       };
 
       lightbox.onclick = (e) => {
-        if (e.target === lightbox) lightbox.style.display = "none";
+        if (e.target === lightbox) {
+          lightbox.style.display = "none";
+        }
       };
 
       zoomIn.onclick = (e) => {
         e.stopPropagation();
+
         scale += 0.2;
+
         lbImg.style.transform = `scale(${scale})`;
       };
 
       zoomOut.onclick = (e) => {
         e.stopPropagation();
+
         scale = Math.max(1, scale - 0.2);
+
         lbImg.style.transform = `scale(${scale})`;
       };
 
       document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") lightbox.style.display = "none";
+        if (e.key === "Escape") {
+          lightbox.style.display = "none";
+        }
       });
     </script>
   </body>

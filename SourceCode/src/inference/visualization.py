@@ -125,15 +125,23 @@ def visualize_all_results(img_original, all_results, idx_to_class, best_model, m
     plt.close()
     print(">>> AFTER VISUALIZE")
 
-def compare_models_overlay(img_original, gt_mask, all_results, save_path=None):
+def compare_models_overlay(
+    img_original,
+    gt_mask,
+    all_results,
+    save_path=None
+):
 
     img_original = np.squeeze(img_original)
     gt_mask = np.squeeze(gt_mask)
-
+    img_original = cv2.resize(img_original,(224, 224),interpolation=cv2.INTER_AREA)
     seg_results = {}
 
     for model_key, result in all_results.items():
-        model_type = MODEL_CONFIGS[model_key]['type']
+
+        model_type = MODEL_CONFIGS[
+            model_key
+        ]['type']
 
         if model_type != 'classifier':
             seg_results[model_key] = result
@@ -146,8 +154,20 @@ def compare_models_overlay(img_original, gt_mask, all_results, save_path=None):
         figsize=(5 * (n_models + 1), 5)
     )
 
-    # ===== ORIGINAL =====
-    axes[0].imshow(img_original, cmap='gray', vmin=0, vmax=255)
+    # FIX CRITICAL BUG
+    if not isinstance(axes, np.ndarray):
+        axes = [axes]
+
+    axes = axes.flatten()
+
+    # =========================
+    # ORIGINAL
+    # =========================
+
+    axes[0].imshow(
+        img_original,
+        cmap='gray'
+    )
 
     axes[0].set_title(
         "Original MRI",
@@ -163,27 +183,50 @@ def compare_models_overlay(img_original, gt_mask, all_results, save_path=None):
 
         pred_mask = np.squeeze(result['seg_mask'])
 
+        # resize prediction mask về đúng size ảnh gốc
+        # pred_mask = cv2.resize(
+        # pred_mask,
+        #     (img_original.shape[1], img_original.shape[0]),
+        #     interpolation=cv2.INTER_NEAREST
+        # )
+
         pred_mask = (pred_mask > 0.5).astype(np.uint8)
+
         gt_bin = (gt_mask > 0.5).astype(np.uint8)
 
-        model_name = MODEL_CONFIGS[model_key]['name']
+        overlay = cv2.cvtColor(
+            img_original.astype(np.uint8),
+            cv2.COLOR_GRAY2RGB
+        )
 
-        overlay = cv2.cvtColor(img_original.astype(np.uint8), cv2.COLOR_GRAY2RGB)
-
+        # GT = BLUE
         overlay[gt_bin == 1] = [0, 0, 255]
 
+        # PRED = RED
         overlay[pred_mask == 1] = [255, 0, 0]
 
-        overlap = (gt_bin == 1) & (pred_mask == 1)
+        # OVERLAP = PURPLE
+        overlap = (
+            (gt_bin == 1)
+            &
+            (pred_mask == 1)
+        )
+
         overlay[overlap] = [255, 0, 255]
 
         axes[idx].imshow(overlay)
 
-        tumor_pct = np.mean(pred_mask) * 100
+        model_name = MODEL_CONFIGS[
+            model_key
+        ]['name']
+
+        tumor_pct = (
+            np.mean(pred_mask) * 100
+        )
 
         axes[idx].set_title(
             f"{model_name}\nTumor: {tumor_pct:.2f}%",
-            fontsize=12,
+            fontsize=11,
             fontweight='bold'
         )
 
@@ -192,7 +235,7 @@ def compare_models_overlay(img_original, gt_mask, all_results, save_path=None):
         idx += 1
 
     fig.suptitle(
-        "Ground Truth (Blue) vs Prediction (Red)",
+        "GT (Blue) vs Prediction (Red)",
         fontsize=16,
         fontweight='bold'
     )
@@ -207,6 +250,8 @@ def compare_models_overlay(img_original, gt_mask, all_results, save_path=None):
             bbox_inches='tight'
         )
 
-        print(f"Overlay saved to: {save_path}")
+        print(
+            f"Overlay saved to: {save_path}"
+        )
 
     plt.close()
