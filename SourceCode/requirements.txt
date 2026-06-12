@@ -1,46 +1,42 @@
-
 # Deep Learning Framework
 
-# torch>=2.0.0                # already installed (torch 2.5.1+cu121)
-# torchvision>=0.15.0         # already installed (torchvision 0.20.1+cu121)
+torch>=2.5.1
+torchvision>=0.20.1
 
+# Computer Vision & Medical Image Processing
 
-# Computer Vision and Image Processing
-
-
-# opencv-python>=4.8.0        # already installed (opencv-python-headless 4.13.0)
-# albumentations>=1.3.1       # already installed (albumentations 2.0.8)
-# Pillow>=10.0.0              # already installed (Pillow 12.0.0)
-
+opencv-python-headless>=4.13.0
+albumentations>=2.0.8
+Pillow>=12.0.0
 
 # Scientific Computing
 
+numpy>=2.3.5
+scipy>=1.17.1
 
-# numpy>=1.24.0               # already installed (numpy 2.3.5)
+# Data Analysis & Evaluation
 
-
-# Data Analysis and Metrics
-
-
-scikit-learn>=1.3.0
-
+pandas>=3.0.1
+scikit-learn>=1.8.0
 
 # Visualization
 
+matplotlib>=3.10.8
+seaborn>=0.13.2
 
-matplotlib>=3.7.0
-seaborn>=0.12.0
+# Web Application
+
+Flask>=3.1.3
 
 # Utilities
 
+tqdm>=4.67.3
+PyYAML>=6.0.3
 
-tqdm>=4.65.0
+# Python >= 3.10
 
-# pathlib is built-in with Python
-# pathlib>=1.0.1
+#
 
+# CUDA 12.1:
 
-# Optional: CUDA support
-
-# Install separately if needed:
-# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
+# pip install torch torchvision --index-url https://download.pytorch.org/whl/cu121
