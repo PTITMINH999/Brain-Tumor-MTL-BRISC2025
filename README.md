@@ -43,10 +43,10 @@ data/processed/
 
 Dự án triển khai nhiều kiến trúc Deep Learning để phục vụ cả phân loại và phân đoạn:
 
-U-Net Classifier: Mô hình phân loại dựa trên encoder của U-Net.
-U-Net: Mô hình phân đoạn ảnh y tế với kiến trúc encoder-decoder và skip connections.
-Attention U-Net: Bổ sung cơ chế Attention giúp tập trung vào các vùng quan trọng trên ảnh MRI.
-Multi-Task Learning Model: Chia sẻ encoder cho cả hai nhiệm vụ Classification và Segmentation nhằm tối ưu hóa việc học đặc trưng.
+- U-Net Classifier: Mô hình phân loại dựa trên encoder của U-Net.
+- U-Net: Mô hình phân đoạn ảnh y tế với kiến trúc encoder-decoder và skip connections.
+- Attention U-Net: Bổ sung cơ chế Attention giúp tập trung vào các vùng quan trọng trên ảnh MRI.
+- Multi-Task Learning Model: Chia sẻ encoder cho cả hai nhiệm vụ Classification và Segmentation nhằm tối ưu hóa việc học đặc trưng.
 
 ### Chức năng chính
 
@@ -229,9 +229,11 @@ static/results/
 
 ### Citation
 
+```text
 @article{fateh2025brisc,
 title={Brisc: Annotated dataset for brain tumor segmentation and classification with swin-hafnet},
 author={Fateh, Amirreza and Rezvani, Yasin and Moayedi, Sara and Rezvani, Sadjad and Fateh, Fatemeh and Fateh, Mansoor and Abolghasemi, Vahid},
 journal={arXiv preprint arXiv:2506.14318},
 year={2025}
 }
+```
