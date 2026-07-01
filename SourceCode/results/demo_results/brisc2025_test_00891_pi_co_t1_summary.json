@@ -1,0 +1,41 @@
+{
+  "image": "D:\\Brain-Tumor-MTL-BRISC2025\\SourceCode\\presented_images\\image\\brisc2025_test_00891_pi_co_t1.jpg",
+  "mri_view": {
+    "type": "Axial",
+    "confidence": 0.625
+  },
+  "best_model": {
+    "name": "Joint Model",
+    "key": "joint"
+  },
+  "results": {
+    "joint": {
+      "model_name": "Joint Model",
+      "prediction": "pituitary",
+      "confidence": 0.999920129776001,
+      "tumor_percentage": 0.013512436300516129,
+      "is_best": true
+    },
+    "attention": {
+      "model_name": "Attention U-Net",
+      "prediction": "Segmentation Only",
+      "confidence": 1.0,
+      "tumor_percentage": 0.013532365672290325,
+      "is_best": false
+    },
+    "unet": {
+      "model_name": "Base U-Net",
+      "prediction": "Segmentation Only",
+      "confidence": 1.0,
+      "tumor_percentage": 0.013831313699483871,
+      "is_best": false
+    },
+    "classifier": {
+      "model_name": "Classifier",
+      "prediction": "pituitary",
+      "confidence": 0.9945695996284485,
+      "tumor_percentage": 0.0,
+      "is_best": false
+    }
+  }
+}

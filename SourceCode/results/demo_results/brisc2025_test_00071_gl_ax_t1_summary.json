@@ -1,0 +1,41 @@
+{
+  "image": "D:\\Brain-Tumor-MTL-BRISC2025\\SourceCode\\presented_images\\image\\brisc2025_test_00071_gl_ax_t1.jpg",
+  "mri_view": {
+    "type": "Axial",
+    "confidence": 0.625
+  },
+  "best_model": {
+    "name": "Joint Model",
+    "key": "joint"
+  },
+  "results": {
+    "joint": {
+      "model_name": "Joint Model",
+      "prediction": "glioma",
+      "confidence": 0.9312237501144409,
+      "tumor_percentage": 0.010981345549225807,
+      "is_best": true
+    },
+    "attention": {
+      "model_name": "Attention U-Net",
+      "prediction": "Segmentation Only",
+      "confidence": 1.0,
+      "tumor_percentage": 0.011439732275903225,
+      "is_best": false
+    },
+    "unet": {
+      "model_name": "Base U-Net",
+      "prediction": "Segmentation Only",
+      "confidence": 1.0,
+      "tumor_percentage": 0.011658960022032261,
+      "is_best": false
+    },
+    "classifier": {
+      "model_name": "Classifier",
+      "prediction": "glioma",
+      "confidence": 0.7662731409072876,
+      "tumor_percentage": 0.0,
+      "is_best": false
+    }
+  }
+}
